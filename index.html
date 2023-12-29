@@ -185,7 +185,8 @@
             <div class="hire">
               <h2>Hire me as:</h2>
               <!-- checkout formspree.io for easy form setup -->
-              <form action="" nmethod="post" class="work-request" name="workRequestForm" id="workRequestForm">
+              <h1 id="resultMessage">Fill out the form:</h1>
+              <form method="post" class="work-request" name="workRequestForm" id="workRequestForm">
                 <div class="work-request--options">
                   <span class="options-a">
                     <input id="opt-1" type="checkbox" name="checkboxes[]" value="app design">
@@ -286,7 +287,7 @@
     <li>Hire Me</li>
   </ul>
 </div>
-<script>
+<!-- <script>
   const scriptURL = 'https://script.google.com/macros/s/AKfycbwUdOEExHIU0N8cRP7ay0y7g6JGmBGej3njkDVuraixzYLOo2FrCN-GeA7WvFtyvWMabw/exec';
   const form = document.forms['workRequestForm'];
   
@@ -306,8 +307,46 @@
       .then(() => { window.location.reload(); })
       .catch(error => console.error('Error!', error.message));
   });
-  </script>
+  </script> -->
   
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwUdOEExHIU0N8cRP7ay0y7g6JGmBGej3njkDVuraixzYLOo2FrCN-GeA7WvFtyvWMabw/exec';
+    const form = document.forms['workRequestForm'];
+    const resultMessage = document.getElementById('resultMessage');
+    
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+    
+      // Display processing message
+      resultMessage.textContent = 'Processing...';
+    
+      // Collect checkbox values manually
+      const checkboxes = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+    
+      // Add checkboxes as a comma-separated string to FormData
+      const formData = new FormData(form);
+      formData.set('checkboxes', checkboxes.join(', '));
+    
+      // Send the form data
+      fetch(scriptURL, { method: 'POST', body: formData })
+        .then(response => response.json())
+        .then(data => {
+          // Update the message based on the result
+          if (data.result === 'success') {
+            resultMessage.textContent = 'Stored successfully!';
+            // window.location.reload();
+          } else {
+            resultMessage.textContent = 'Error during submission. Please try again.';
+          }
+        })
+        .catch(error => {
+          resultMessage.textContent = 'Error during submission. Please try again.';
+          console.error('Error!', error.message);
+        });
+    });
+    </script>
+    
   
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
