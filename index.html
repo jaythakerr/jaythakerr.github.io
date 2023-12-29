@@ -183,12 +183,12 @@
           <!-- Hire Me -->
           <li class="l-section section">
             <div class="hire">
-              <h2>You want me to do</h2>
+              <h2>Hire me as:</h2>
               <!-- checkout formspree.io for easy form setup -->
-              <form class="work-request">
+              <form action="" nmethod="post" class="work-request" name="workRequestForm" id="workRequestForm">
                 <div class="work-request--options">
                   <span class="options-a">
-                    <input id="opt-1" type="checkbox" value="app design">
+                    <input id="opt-1" type="checkbox" name="checkboxes[]" value="app design">
                     <label for="opt-1">
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                       viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
@@ -198,7 +198,7 @@
                       </svg>
                       App Design
                     </label>
-                    <input id="opt-2" type="checkbox" value="graphic design">
+                    <input id="opt-2" type="checkbox" name="checkboxes[]" value="graphic design">
                     <label for="opt-2">
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                       viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
@@ -208,7 +208,7 @@
                       </svg>
                       Graphic Design
                     </label>
-                    <input id="opt-3" type="checkbox" value="motion design">
+                    <input id="opt-3" type="checkbox" name="checkboxes[]" value="motion design">
                     <label for="opt-3">
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                       viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
@@ -220,7 +220,7 @@
                     </label>
                   </span>
                   <span class="options-b">
-                    <input id="opt-4" type="checkbox" value="ux design">
+                    <input id="opt-4" type="checkbox" name="checkboxes[]" value="ux design">
                     <label for="opt-4">
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                       viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
@@ -230,7 +230,7 @@
                       </svg>
                       UX Design
                     </label>
-                    <input id="opt-5" type="checkbox" value="webdesign">
+                    <input id="opt-5" type="checkbox" name="checkboxes[]" value="webdesign">
                     <label for="opt-5">
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                       viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
@@ -240,7 +240,7 @@
                       </svg>
                       Webdesign
                     </label>
-                    <input id="opt-6" type="checkbox" value="marketing">
+                    <input id="opt-6" type="checkbox" name="checkboxes[]" value="marketing">
                     <label for="opt-6">
                       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                       viewBox="0 0 150 111" style="enable-background:new 0 0 150 111;" xml:space="preserve">
@@ -254,15 +254,23 @@
                 </div>
                 <div class="work-request--information">
                   <div class="information-name">
-                    <input id="name" type="text" spellcheck="false">
+                    <input name="name" id="name" type="text" spellcheck="false">
                     <label for="name">Name</label>
                   </div>
+                  &nbsp;
+                  &nbsp;
                   <div class="information-email">
-                    <input id="email" type="email" spellcheck="false">
+                    <input name="email" id="email" type="email" spellcheck="false">
                     <label for="email">Email</label>
                   </div>
+                  &nbsp;
+                  &nbsp;
+                  <div class="information-email">
+                    <input name="contact" id="email" type="text" spellcheck="false">
+                    <label for="email">Contact No</label>
+                  </div>
                 </div>
-                <input type="submit" value="Send Request">
+                <input name="submit" type="submit" value="Send Request">
               </form>
             </div>
           </li>
@@ -278,6 +286,29 @@
     <li>Hire Me</li>
   </ul>
 </div>
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwUdOEExHIU0N8cRP7ay0y7g6JGmBGej3njkDVuraixzYLOo2FrCN-GeA7WvFtyvWMabw/exec';
+  const form = document.forms['workRequestForm'];
+  
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+  
+    // Collect checkbox values manually
+    const checkboxes = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+  
+    // Add checkboxes as a comma-separated string to FormData
+    const formData = new FormData(form);
+    formData.set('checkboxes', checkboxes.join(', '));
+  
+    // Send the form data
+    fetch(scriptURL, { method: 'POST', body: formData })
+      .then(response => alert("Thank you! Your form is submitted successfully."))
+      .then(() => { window.location.reload(); })
+      .catch(error => console.error('Error!', error.message));
+  });
+  </script>
+  
+  
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-2.2.4.min.js"><\/script>')</script>
