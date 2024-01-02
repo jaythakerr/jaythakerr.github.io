@@ -185,7 +185,7 @@
             <div class="hire">
               <h2>Hire me as:</h2>
               <!-- checkout formspree.io for easy form setup -->
-              <h1 id="resultMessage">Fill out the form:</h1>
+              <h1 id="resultMessage"></h1>
               <form method="post" class="work-request" name="workRequestForm" id="workRequestForm">
                 <div class="work-request--options">
                   <span class="options-a">
@@ -334,7 +334,7 @@
         .then(data => {
           // Update the message based on the result
           if (data.result === 'success') {
-            resultMessage.textContent = 'Stored successfully!';
+            resultMessage.textContent = 'Thank you for submitting! We will connect with you soon.';
             // window.location.reload();
           } else {
             resultMessage.textContent = 'Error during submission. Please try again.';
